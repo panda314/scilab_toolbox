@@ -47,9 +47,6 @@ function [phi, varargout]=phasez(varargin)
         ph_den=phasemag(b*exp(%i*M));//similar result for denominator
         [m,n]=size(w);
         phi=pmodulo(ph_num-ph_den,360);//takes the difference in phase modulo 360
-        if cas1==2 then
-            varargout(2)=w*fs/(2*%pi);
-        end
     else
         N=[0,1,2];
         M=N'*w;
@@ -58,8 +55,16 @@ function [phi, varargout]=phasez(varargin)
         phi_mat=ph_num-ph_den;
         [m,n]=size(w);
         phi=pmodulo(sum(phi_mat,1),360);//summing each of the componenet second order system phases
-        if cas1==2 then
-            varargout(2)=w*fs/(2*%pi);
+    end
+    if cas1==1 then
+        varargout(2)=w*fs/(2*%pi);
+        if nargout>2 then
+            varargout(3)=struct('plot', 'both', 'fvflag', 0, 'yunits','degrees','xunit','Hz','fs',fs);
+        end
+    else
+        varargout(2)=w;
+        if nargout>2 then
+            varargout(3)=struct('plot', 'both', 'fvflag', 0, 'yunits','degrees','xunit','radian/sample','fs',[]);
         end
     end
 endfunction
