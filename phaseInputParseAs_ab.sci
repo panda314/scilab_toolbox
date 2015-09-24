@@ -27,7 +27,7 @@ function [a,b,w,cas1,fs]=phaseInputParseAs_ab(arg,nargin)
         elseif (type(arg(3))==1)
             if (v==[1,1])&(floor(arg(3))==arg(3))&(arg(3)>0) then //i.e. the entry is a single integer
                 n=arg(3);
-                [0:(1/n):((n-1)/n)]*%pi;
+                w=[0:(1/n):((n-1)/n)]*%pi;
             elseif (v(1)==1) then //(sos,w) w must be one dimensional
                 w=arg(3);
             elseif (v(2)==1) then //w to row matrix
@@ -35,7 +35,7 @@ function [a,b,w,cas1,fs]=phaseInputParseAs_ab(arg,nargin)
             else
                 error ('dimension of input is invalid');
             end
-        else 
+        else
             error ('invalid input');
         end
     elseif nargin==4 then //(a,b,n,fs) or (a,b,f,fs) or (a,b,n,'whole')
@@ -62,7 +62,7 @@ function [a,b,w,cas1,fs]=phaseInputParseAs_ab(arg,nargin)
             v=size(arg(3));
             if (v==[1,1])&(floor(arg(3))==arg(3))&(arg(3)>0) then //i.e. the entry is a single integer
                 n=arg(3);
-                [0:(1/n):((n-1)/n)]*(%pi);
+                w=[0:(1/n):((n-1)/n)]*(%pi);
             elseif (v(1)==1) then //(sos,w) w must be one dimensional
                 w=2*arg(3)*%pi/fs;
             elseif (v(2)==1) then //w to row matrix
@@ -83,7 +83,7 @@ function [a,b,w,cas1,fs]=phaseInputParseAs_ab(arg,nargin)
             v=size(arg(3));
             if (v==[1,1])&(floor(arg(3))==arg(3))&(arg(3)>0) then //i.e. the entry is a single integer
                 n=arg(3);
-                [0:(1/n):((n-1)/n)]*(2*%pi);
+                w=[0:(1/n):((n-1)/n)]*(2*%pi);
             elseif (v(1)==1) then //(sos,w) w must be one dimensional
                 w=2*arg(3)*%pi/fs;
             elseif (v(2)==1) then //w to row matrix

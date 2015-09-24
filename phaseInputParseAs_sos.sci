@@ -5,7 +5,7 @@ function [sos,w,cas1,fs]=phaseInputParseAs_sos(arg,nargin)
     end
     sos=arg(1);
     if nargin==1 then //(sos) is the input
-        w=[0:(1/511):1]*%pi;
+        w=[0:(1/512):(511/512)]*%pi;
         cas1=1;
     elseif nargin==2 then //(sos,n) or (sos,w) or (sos,'whole')
         cas1=1;
@@ -21,11 +21,7 @@ function [sos,w,cas1,fs]=phaseInputParseAs_sos(arg,nargin)
         elseif (type(arg(2))==1)
             if (v==[1,1])&(floor(arg(2))==arg(2))&(arg(2)>0) then //i.e. the entry is a single integer
                 n=arg(2);
-                if (n==1) then
-                    w=0;
-                else
-                    w=[0:(1/(n-1)):1]*%pi;
-                end
+                w=[0:(1/n):((n-1)/n)]*(%pi);
             elseif (v(1)==1) then //(sos,w) w must be one dimensional
                 w=arg(2);
             elseif (v(2)==1) then //w to row matrix
@@ -60,11 +56,7 @@ function [sos,w,cas1,fs]=phaseInputParseAs_sos(arg,nargin)
             v=size(arg(2));
             if (v==[1,1])&(floor(arg(2))==arg(2))&(arg(2)>0) then //i.e. the entry is a single integer
                 n=arg(2);
-                if (n==1) then
-                    w=0;
-                else
-                    w=[0:(1/(n-1)):1]*%pi;
-                end
+                w=[0:(1/n):((n-1)/n)]*(%pi);
             elseif (v(1)==1) then //(sos,w) w must be one dimensional
                 w=2*arg(2)*%pi/fs;
             elseif (v(2)==1) then //w to row matrix
@@ -96,6 +88,5 @@ function [sos,w,cas1,fs]=phaseInputParseAs_sos(arg,nargin)
         else
             error ('input format is invalid');
         end
-    end
     end
     endfunction
