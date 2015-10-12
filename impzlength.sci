@@ -1,6 +1,6 @@
 //Author: Parthasarathi Panda
 //parthasarathipanda314@gmail.com
-function m=filtord(varargin)
+function len=impzlength(varargin)
     [nargout,nargin]=argn();
     if (nargin==2) then
         a=varargin(1);
@@ -47,21 +47,17 @@ function m=filtord(varargin)
             b=convol(b,sos(4:6));
         end
     end
-    k=length(a);
-    order_a=0;
-    for i=k:-1:1
-        if (a(1,i)~=0) then
-            order_a=i;
-            break;
-        end
+    poly_a=inv_coeff(a);
+    poly_b=inv_coeff(b);
+    z=inv_coeff([1,0]);
+    gc=gcd([poly_a,poly_b]);
+    [r,den]=pdiv(poly_b,gc);
+    [r,num]=pdiv(poly_a,gc);
+    time_constant=min(abs(roots(den)));
+    if time_constant<=1 then
+        disp('unstable system');
+        len=%nan;
+    else
+        len=ceil(5/log(time_constant));
     end
-    k=length(b);
-    order_b=0;
-    for i=[k:-1:1]
-        if (b(1,i)~=0) then
-            order_b=i;
-            break;
-        end
-    end
-    m=max(order_a,order_b);
 endfunction
