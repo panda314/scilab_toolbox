@@ -47,17 +47,21 @@ function len=impzlength(varargin)
             b=convol(b,sos(4:6));
         end
     end
-    poly_a=inv_coeff(a);
-    poly_b=inv_coeff(b);
-    z=inv_coeff([1,0]);
-    gc=gcd([poly_a,poly_b]);
-    [r,den]=pdiv(poly_b,gc);
-    [r,num]=pdiv(poly_a,gc);
-    time_constant=min(abs(roots(den)));
-    if time_constant<=1 then
-        disp('unstable system');
-        len=%nan;
+    if length(b)==1 then
+        len=length(a);
     else
-        len=ceil(5/log(time_constant));
+        poly_a=inv_coeff(a);
+        poly_b=inv_coeff(b);
+        z=inv_coeff([1,0]);
+        gc=gcd([poly_a,poly_b]);
+        [r,den]=pdiv(poly_b,gc);
+        [r,num]=pdiv(poly_a,gc);
+        time_constant=min(abs(roots(den)));
+        if time_constant<=1 then
+            disp('unstable system');
+            len=%nan;
+        else
+            len=ceil(5/log(time_constant));
+        end
     end
 endfunction
