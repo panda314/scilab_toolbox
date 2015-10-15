@@ -1,6 +1,6 @@
 //Author: Parthasarathi Panda
 //parthasarathipanda314@gmail.com
-function isstab=isstable(varargin)
+function ismin=isminphase(varargin)
     [nargout,nargin]=argn();
     if (nargin==2) then
         a=varargin(1);
@@ -47,21 +47,31 @@ function isstab=isstable(varargin)
             b=convol(b,sos(4:6));
         end
     end
-    if length(b)==1 then
-        len=length(a);
-    else
-        poly_a=inv_coeff(a);
-        poly_b=inv_coeff(b);
-        z=inv_coeff([1,0]);
-        gc=gcd([poly_a,poly_b]);
-        [r,den]=pdiv(poly_b,gc);
-        [r,num]=pdiv(poly_a,gc);
-        time_constant=min(abs(roots(den)));
-        if time_constant<=1 then
-            disp('unstable system');
-            isstab=0;
+    poly_a=inv_coeff(a);
+    poly_b=inv_coeff(b);
+    z=inv_coeff([1,0]);
+    gc=gcd([poly_a,poly_b]);
+    [r,den]=pdiv(poly_b,gc);
+    [r,num]=pdiv(poly_a,gc);
+    maxpole=min(abs(roots(den)));
+    maxzero=min(abs(roots(num)));
+    if length(a)==1 then
+        if length(b)==1 then
+            ismin=1;
+        elseif maxzero>1 then
+            ismin=1;
         else
-            isstab=1;
+            ismin=0;
         end
+    elseif maxpole>1 then
+        if length(b)==1 then
+            ismin=1;
+        elseif maxzero>1 then
+            ismin=1;
+        else
+            ismin=0;
+        end
+    else
+        ismin=0;
     end
 endfunction
