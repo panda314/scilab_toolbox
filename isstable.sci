@@ -50,7 +50,7 @@ function isstab=isstable(varargin)
         error('no. of inputs not matching');
     end
     if length(b)==1 then
-        len=length(a);
+        isstab=1;
     else
         poly_a=inv_coeff(a);
         poly_b=inv_coeff(b);

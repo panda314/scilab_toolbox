@@ -1,6 +1,6 @@
 //Author: Parthasarathi Panda
 //parthasarathipanda314@gmail.com
-function isall=isallpass(varargin)
+function islin=islinphase(varargin)
     [nargout,nargin]=argn();
     if (nargin==2) then
         v=size(varargin(1));
@@ -112,30 +112,16 @@ function isall=isallpass(varargin)
     else
         error('no. of inputs not matching');
     end
-
-    poly_a=inv_coeff(a($:-1:1));
-    poly_b=inv_coeff(b);
-    gc=gcd([poly_a,poly_b]);
-    [r,den]=pdiv(poly_b,gc);
-    [r,num]=pdiv(poly_a,gc);
-    poles=roots(den);
-    zerosinv=roots(num);
-    //sorting the zeros and poles to facilitate comparision
-    [l,k]=gsort(imag(poles));
-    poles=poles(k);
-    [l,k]=gsort(real(poles));
-    poles=poles(k);
-    [l,k]=gsort(imag(poles));
-    zerosinv=zerosinv(k);
-    [l,k]=gsort(real(poles));
-    zerosinv=zerosinv(k);
-    maxerr=max((poles-conj(zerosinv)).*conj(poles-conj(zerosinv)));
-    if zerosinv==[] & poles==[] then
-        isall=1;
-    elseif maxerr<=tol then
-        isall=1;
+    if length(b)==1 then
+        err=a-a($:-1:1);
+        maxerr=max(err.*conj(err));
+        if err<=tol then
+            islin=1;
+        else
+            islin=0;
+        end
     else
-        isall=0;
+        islin=0;
     end
-
+    
 endfunction
