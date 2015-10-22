@@ -46,6 +46,8 @@ function ismax=ismaxphase(varargin)
             a=convol(a,sos(1:3));
             b=convol(b,sos(4:6));
         end
+    else
+        error('no. of inputs not matching');
     end
     poly_a=inv_coeff(a);
     poly_b=inv_coeff(b);
