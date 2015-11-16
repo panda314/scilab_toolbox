@@ -2,9 +2,10 @@
 //parthasarathipanda314@gmail.com
 function isstab=isstable(varargin)
     [nargout,nargin]=argn();
-    if (nargin==2) then
+    if (nargin==2) then//(a,b) is the input
         a=varargin(1);
         b=varargin(2);
+        //verifying type and length of input
         if type(a)~=1 | type(b)~=1 then
             error('check input type');
         end
@@ -29,8 +30,9 @@ function isstab=isstable(varargin)
         elseif n~=1 then
             error('check input dimension');
         end
-    elseif (nargin==1) then
+    elseif (nargin==1) then//sos form is given as input
         sos=varargin(1);
+        //verifying type and length of input
         if type(sos)~=1 then
             error('check input dimension');
         end
@@ -42,6 +44,7 @@ function isstab=isstable(varargin)
             error('no. of columns must be 6');
         end
         a=1;b=1;
+        //converting it to rational form
         for i=[1:v(1)]
             a=convol(a,sos(1:3));
             b=convol(b,sos(4:6));
@@ -52,14 +55,12 @@ function isstab=isstable(varargin)
     if length(b)==1 then
         isstab=1;
     else
-        poly_a=inv_coeff(a);
-        poly_b=inv_coeff(b);
-        z=inv_coeff([1,0]);
-        gc=gcd([poly_a,poly_b]);
-        [r,den]=pdiv(poly_b,gc);
-        [r,num]=pdiv(poly_a,gc);
-        time_constant=min(abs(roots(den)));
-        if time_constant<=1 then
+        poly_a=inv_coeff(a);//constructing numerator polynomial
+        poly_b=inv_coeff(b);//constructing denominator polynomial
+        gc=gcd([poly_a,poly_b]);//computing gcd to remove common roots
+        [r,den]=pdiv(poly_b,gc);//dividing off gcd
+        time_constant=min(abs(roots(den)));//finding the minumum magnitude pole
+        if time_constant<=1 then//pole magnitude should be greater than 1
             disp('unstable system');
             isstab=0;
         else
