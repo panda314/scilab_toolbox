@@ -43,8 +43,8 @@ function ismin=isminphase(varargin)
         end
         a=1;b=1;
         for i=[1:v(1)]
-            a=convol(a,sos(1:3));
-            b=convol(b,sos(4:6));
+            a=convol(a,sos(i,1:3));
+            b=convol(b,sos(i,4:6));
         end
     else
         error('no. of inputs not matching');
