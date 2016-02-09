@@ -11,6 +11,21 @@ function [sos,g]=ss2sos(A,B,C,D)
     if (norm(imag(A))~=0 | norm(imag(B))~=0 | norm(imag(C))~=0 | norm(imag(D))~=0) then
         error('input must be real matrices');
     end
+    //cross checking dimensions of matrix
+    if size(D)~=[1,1] then
+        error('for single input single output, D must be 1 by 1');
+    end
+    [n,k]=size(B);
+    if k~=1 then
+        error('for single input single output, B must be column matrix');
+    end
+    [n,k]=size(C);
+    if n~=1 then
+        error('for single input single output, C must be row matrix');
+    end
+    if size(A)~=[1,1] then
+        error('A must be square matrix');
+    end
     //obtaining the transfer function(continuous)
     tf=ss2tf(syslin('c',A,B,C,D));
     //factorising the numerator and the denominator into second order systems
